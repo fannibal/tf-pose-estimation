@@ -11,7 +11,7 @@
     <arg name="resolution" default="432x368" />
 
 
-    <node name="pose_estimator" pkg="tfpose_ros" type="broadcaster_ros.py" output="screen" required="true">
+    <node name="pose_estimator" pkg="tf-pose-estimation" type="broadcaster_ros.py" output="screen" required="true">
         <env name="CUDA_VISIBLE_DEVICES" value="$(arg gpuid)" />
         <param name="camera" value="/videofile/image_raw" />
         <param name="model" value="$(arg model)" />
