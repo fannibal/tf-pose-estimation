@@ -14,13 +14,13 @@ from tf_pose.tensblur.smoother import Smoother
 
 try:
     from tf_pose.pafprocess import pafprocess
-except ModuleNotFoundError as e:
+except ImportError as e:
     print(e)
     print('you need to build c++ library for pafprocess. See : https://github.com/ildoonet/tf-pose-estimation/tree/master/tf_pose/pafprocess')
     exit(-1)
 
 logger = logging.getLogger('TfPoseEstimator')
-logger.handlers.clear()
+#logger.handlers.clear()
 logger.setLevel(logging.INFO)
 ch = logging.StreamHandler()
 formatter = logging.Formatter('[%(asctime)s] [%(name)s] [%(levelname)s] %(message)s')

@@ -9,7 +9,7 @@ from distutils.core import setup, Extension
 
 import numpy as np
 
-_VERSION = '0.1.1'
+_VERSION = '0.1.0'
 
 cwd = os.path.dirname(os.path.abspath(__file__))
 subprocess.check_output(["bash", "models/graph/cmu/download.sh"], cwd=cwd)
@@ -53,12 +53,12 @@ setuptools.setup(
     author='Ildoo Kim',
     author_email='ildoo@ildoo.net',
     license='Apache License 2.0',
-    package_dir={'tf_pose_data': 'models'},
-    packages=['tf_pose_data'] +
+    package_dir={'tfpose_ros': 'tfpose_ros'},
+    packages=['tfpose_ros'] +
              [pkg_name for pkg_name in setuptools.find_packages()  # main package
               if 'tf_pose' in pkg_name],
     ext_modules=[EXT],
-    package_data={'tf_pose_data': ['graph/cmu/graph_opt.pb',
+    package_data={'tfpose_ros': ['graph/cmu/graph_opt.pb',
                                    'graph/mobilenet_thin/graph_opt.pb']},
     py_modules=[
         "pafprocess"

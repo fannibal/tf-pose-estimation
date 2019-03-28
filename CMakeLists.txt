@@ -8,6 +8,7 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   std_msgs
+  sensor_msgs
   message_generation
 )
 
@@ -20,10 +21,11 @@ add_message_files(
   BodyPartElm.msg
   Person.msg
   Persons.msg
+  FullPersons.msg
 )
 
 generate_messages(
-  DEPENDENCIES std_msgs
+  DEPENDENCIES std_msgs sensor_msgs
 )
 
 catkin_package(

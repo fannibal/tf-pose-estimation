@@ -10,7 +10,7 @@ import rospkg
 from cv_bridge import CvBridge, CvBridgeError
 from std_msgs.msg import String
 from sensor_msgs.msg import Image
-from tfpose_ros.msg import Persons, Person, BodyPartElm
+from tfpose_ros.msg import Persons, Person, BodyPartElm, FullPersons
 
 from tf_pose.estimator import TfPoseEstimator
 from tf_pose.networks import model_wh, get_graph_path
@@ -53,10 +53,15 @@ def callback_image(data):
     finally:
         tf_lock.release()
 
-    msg = humans_to_msg(humans)
-    msg.image_w = data.width
-    msg.image_h = data.height
-    msg.header = data.header
+    skelet = humans_to_msg(humans)
+    skelet.image_w = data.width
+    skelet.image_h = data.height
+    skelet.header = data.header
+    img = data
+    
+    msg = FullPersons()
+    msg.persons = skelet
+    msg.image = img
 
     pub_pose.publish(msg)
 
@@ -91,7 +96,7 @@ if __name__ == '__main__':
     cv_bridge = CvBridge()
 
     rospy.Subscriber(image_topic, Image, callback_image, queue_size=1, buff_size=2**24)
-    pub_pose = rospy.Publisher('~pose', Persons, queue_size=1)
+    pub_pose = rospy.Publisher('~pose', FullPersons, queue_size=1)
 
     rospy.loginfo('start+')
     rospy.spin()
