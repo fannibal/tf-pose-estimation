@@ -12,6 +12,7 @@ from std_msgs.msg import String
 from sensor_msgs.msg import Image
 from tfpose_ros.msg import Persons, Person, BodyPartElm, FullPersons
 
+from tensorflow import ConfigProto
 from tf_pose.estimator import TfPoseEstimator
 from tf_pose.networks import model_wh, get_graph_path
 
@@ -92,7 +93,10 @@ if __name__ == '__main__':
         rospy.logerr('invalid model: %s, e=%s' % (model, e))
         sys.exit(-1)
 
-    pose_estimator = TfPoseEstimator(graph_path, target_size=(w, h))
+    config = ConfigProto()
+    config.gpu_options.allow_growth = True
+
+    pose_estimator = TfPoseEstimator(graph_path, target_size=(w, h), tf_config=config)
     cv_bridge = CvBridge()
 
     rospy.Subscriber(image_topic, Image, callback_image, queue_size=1, buff_size=2**24)
