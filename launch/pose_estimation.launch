@@ -13,22 +13,21 @@
 
     <node name="pose_estimator" pkg="tfpose_ros" type="broadcaster_ros.py" output="screen" required="true">
         <env name="CUDA_VISIBLE_DEVICES" value="$(arg gpuid)" />
-        <param name="camera" value="/videofile/image_raw" />
+        <param name="camera" value="/camera/color/image_raw" />
         <param name="model" value="$(arg model)" />
         <param name="resolution" value="$(arg resolution)" />
     </node>
 
-    <include file="$(find video_stream_opencv)/launch/camera.launch">
+    <!-- include file="$(find video_stream_opencv)/launch/camera.launch">
         <arg name="camera_name" value="videofile" />
-        <!-- means video device 0, /dev/video0 -->
+
         <arg name="video_stream_provider" value="$(arg video)" />
-        <!-- throttling the querying of frames to -->
         <arg name="fps" value="40" />
-        <!-- setting frame_id -->
+
         <arg name="frame_id" value="videofile_frame" />
         <arg name="width" value="$(arg video_width)"/>
         <arg name="height" value="$(arg video_height)"/>
         <arg name="visualize" value="false" />
-    </include>
+    </include -->
 
 </launch>

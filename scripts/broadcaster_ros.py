@@ -63,6 +63,7 @@ def callback_image(data):
     msg = FullPersons()
     msg.persons = skelet
     msg.image = img
+    msg.header = data.header
 
     pub_pose.publish(msg)
 
