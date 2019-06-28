@@ -1,3 +1,3 @@
 Persons persons
-sensor_msgs/Image image
+sensor_msgs/CompressedImage image
 Header header

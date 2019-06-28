@@ -13,7 +13,7 @@
 
     <node name="pose_estimator" pkg="tfpose_ros" type="broadcaster_ros.py" output="screen" required="true">
         <env name="CUDA_VISIBLE_DEVICES" value="$(arg gpuid)" />
-        <param name="camera" value="/camera/color/image_raw" />
+        <param name="camera" value="/realsense/color/image_raw/compressed" />
         <param name="model" value="$(arg model)" />
         <param name="resolution" value="$(arg resolution)" />
     </node>

@@ -9,7 +9,7 @@ import rospy
 import rospkg
 from cv_bridge import CvBridge, CvBridgeError
 from std_msgs.msg import String
-from sensor_msgs.msg import Image
+from sensor_msgs.msg import Image, CompressedImage
 from tfpose_ros.msg import Persons, Person, BodyPartElm, FullPersons
 
 from tensorflow import ConfigProto
@@ -40,7 +40,7 @@ def humans_to_msg(humans):
 def callback_image(data):
     # et = time.time()
     try:
-        cv_image = cv_bridge.imgmsg_to_cv2(data, "bgr8")
+        cv_image = cv_bridge.compressed_imgmsg_to_cv2(data, "bgr8")
     except CvBridgeError as e:
         rospy.logerr('[tf-pose-estimation] Converting Image Error. ' + str(e))
         return
@@ -55,8 +55,8 @@ def callback_image(data):
         tf_lock.release()
 
     skelet = humans_to_msg(humans)
-    skelet.image_w = data.width
-    skelet.image_h = data.height
+    skelet.image_w = cv_image.shape[1]
+    skelet.image_h = cv_image.shape[0]
     skelet.header = data.header
     img = data
     
@@ -100,7 +100,7 @@ if __name__ == '__main__':
     pose_estimator = TfPoseEstimator(graph_path, target_size=(w, h), tf_config=config)
     cv_bridge = CvBridge()
 
-    rospy.Subscriber(image_topic, Image, callback_image, queue_size=1, buff_size=2**24)
+    rospy.Subscriber(image_topic, CompressedImage, callback_image, queue_size=1, buff_size=2**24)
     pub_pose = rospy.Publisher('~pose', FullPersons, queue_size=1)
 
     rospy.loginfo('start+')
